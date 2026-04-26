@@ -1,168 +1,170 @@
 import { useState } from "react";
 
-const AIRBNB = "R. Heliodoro Salgado 81, Penha de França";
+const LISBON_AIRBNB = "2 R. Cap. Henrique Galvão"; // approximate - confirm when booked
+const ALBUFEIRA_AIRBNB = "23B R. Guerra Junqueiro"; // approximate - confirm when booked
 
 const days = [
   {
-    day: 1, date: "Wed, June 3", title: "Arrival & Baixa", vibe: "Ease in, explore downtown", color: "#E8D5B7",
-    transport: { label: "Airport → Airbnb", detail: "Metro: Red Line from Aeroporto → Alameda, transfer Green Line → Anjos. ~35 min, ~€1.50 + €0.50 Viva Viagem card. OR Uber/Bolt: ~€10–15, 20 min." },
+    day: 1, date: "Wed, June 3", title: "Arrival → Albufeira", vibe: "Land in Lisbon, head to the beach", color: "#F2C879",
+    transport: { label: "Lisbon Airport → Albufeira", detail: "Land at Lisbon (LIS). Rede Expressos bus from Sete Rios station to Albufeira (~2.5 hours, ~€20). Metro Red Line: Aeroporto → Jardim Zoológico (~20 min), then 5 min walk to Sete Rios bus station. OR Uber/Bolt direct: ~€150–180, 2.5 hours." },
+    booking: { urgency: "now", text: "Book Albufeira accommodation (June 3–6, 3 nights)\nBook Rede Expressos bus: Lisbon → Albufeira → rede-expressos.pt\nAim for 10:30am or 11am departure from Sete Rios" },
+    items: [
+      { time: "8:00 AM", text: "Land at Lisbon Airport (LIS) — DL0272 from JFK" },
+      { time: "9:00 AM", text: "Clear customs, grab luggage" },
+      { time: "9:30 AM", text: "Metro Red Line: Aeroporto → Jardim Zoológico (~20 min). Walk 5 min to Sete Rios bus station.", tag: "transit" },
+      { time: "10:30 AM", text: "Rede Expressos bus to Albufeira (~2.5 hours). Relax, maybe nap!", tag: "transit" },
+      { time: "1:00 PM", text: "Arrive Albufeira bus station — Uber/walk to accommodation (~10 min)" },
+      { time: "1:30 PM", text: "Drop bags at accommodation (check-in likely 3pm, but most allow luggage drop)" },
+      { time: "2:00 PM", text: "Lunch near Old Town — fresh grilled fish, cataplana (seafood stew), or sardinhas" },
+      { time: "3:00 PM", text: "Check into accommodation, freshen up" },
+      { time: "4:00 PM", text: "Walk to Praia dos Pescadores (Fisherman's Beach) — central beach with cliffs and colorful boats" },
+      { time: "5:30 PM", text: "Explore Old Town (Albufeira Velha) — winding cobblestone streets, white-washed buildings, cafés" },
+      { time: "7:00 PM", text: "Sunset drinks at a clifftop bar — try Skybar Albufeira or any terrace with views" },
+      { time: "9:00 PM", text: "Dinner in Old Town — Cabaz da Praia (seafood with ocean view) or O Dias (traditional, locals' favorite)" },
+    ],
+    notes: "It's a travel day but you'll still have a full afternoon/evening in Albufeira! The bus ride is scenic and a good chance to rest after the overnight flight. Accommodation is near " + ALBUFEIRA_AIRBNB + " (confirm address when booked).",
+  },
+  {
+    day: 2, date: "Thu, June 4", title: "Algarve Beaches & Caves", vibe: "Golden cliffs, sea caves, coastal magic", color: "#E8B4A0",
+    transport: { label: "Boat tour from Albufeira Marina", detail: "Book boat/kayak tour to Benagil Cave from Albufeira Marina (~15 min walk from Old Town). Tours run 9am–5pm, ~€25–40/person." },
+    booking: { urgency: "now", text: "Book Benagil Cave boat or kayak tour — popular, sells out!\n→ Search 'Benagil Cave tour from Albufeira' on GetYourGuide or Viator" },
+    items: [
+      { time: "8:30 AM", text: "Breakfast at accommodation or grab pastéis at a local pastelaria" },
+      { time: "9:30 AM", text: "Walk to Albufeira Marina (~15 min from Old Town)", tag: "transit" },
+      { time: "10:00 AM", text: "Boat tour to Benagil Cave — iconic sea cave with sunlit dome ceiling, plus other grottos and rock formations along the coast (~2–3 hours)" },
+      { time: "1:00 PM", text: "Lunch at the Marina — Restaurante Evaristo (beachfront, amazing seafood) or casual spots on the waterfront" },
+      { time: "3:00 PM", text: "Praia de São Rafael — one of the most beautiful beaches in Algarve, dramatic rock formations, clear water" },
+      { time: "5:30 PM", text: "Back to accommodation, shower, rest" },
+      { time: "7:30 PM", text: "Evening walk through Old Town, browse shops and galleries" },
+      { time: "9:00 PM", text: "Dinner — A Ruína (seafood on the beach at Praia dos Pescadores) or Tasca do Kiko (tapas, great octopus)" },
+      { time: "11:00 PM", text: "Optional: drinks on The Strip or at a rooftop bar" },
+    ],
+    notes: "Benagil Cave is the #1 Algarve attraction — book early! Kayak tours let you paddle inside, boat tours view from the water. Bring swimsuit, sunscreen, and waterproof bag for phone.",
+  },
+  {
+    day: 3, date: "Fri, June 5", title: "Beach Day & Algarve Vibes", vibe: "Relax, swim, explore nearby beaches", color: "#C4D7A4",
+    transport: { label: "Explore nearby beaches", detail: "Uber/Bolt to beaches (~€5–10). OR rent a car for flexibility. Local buses run but infrequent." },
     booking: null,
     items: [
-      { time: "8:00 AM", text: "Land at Lisbon Airport (LIS)" },
-      { time: "9:00 AM", text: "Metro or Uber to Airbnb — drop bags (check-in likely 3pm, but most hosts allow luggage drop)", tag: "transit" },
-      { time: "9:30 AM", text: "Get a Viva Viagem card at Anjos metro (your home station), load with 'zapping' credit for all public transit" },
-      { time: "10:30 AM", text: "Walk through Baixa — Lisbon's downtown grid. Green Line 2 stops to Rossio, or walk downhill ~20 min." },
-      { time: "11:30 AM", text: "Praça do Comércio — grand waterfront square, coffee at the arcaded cafés" },
-      { time: "1:00 PM", text: "Lunch — try pastéis de bacalhau (cod croquettes) or grilled fish on Rua Augusta" },
-      { time: "2:30 PM", text: "Wander up to Rossio Square & Praça da Figueira" },
-      { time: "3:00 PM", text: "Check into Airbnb, freshen up, maybe nap" },
-      { time: "5:30 PM", text: "Evening stroll — Miradouro do Monte Agudo viewpoint is literally on your street" },
-      { time: "7:00 PM", text: "Explore Martim Moniz / Intendente area (~10 min walk) — Rua do Benformoso is great for halal food if you want it. Also tons of cool bars and cafés." },
-      { time: "9:00 PM", text: "Dinner — Cervejaria Ramiro (famous seafood, locals line up for the shrimp and crab) or Mezze at Arroios Market near your Airbnb (Syrian, halal, incredible kebabs and hummus)" },
+      { time: "9:30 AM", text: "Leisurely breakfast — last full day in Algarve!" },
+      { time: "10:30 AM", text: "Uber to Praia da Marinha (~15 min) — often ranked top beach in Europe. Dramatic cliffs, crystal water, iconic double arches.", tag: "transit" },
+      { time: "11:00 AM", text: "Beach time! Swim in the coves, take photos of the rock formations" },
+      { time: "1:00 PM", text: "Lunch at the cliff-top restaurant or pack a picnic" },
+      { time: "2:30 PM", text: "Walk the Seven Hanging Valleys Trail (Percurso dos Sete Vales Suspensos) — even a short section has incredible views" },
+      { time: "4:00 PM", text: "Head to Praia da Falésia — long golden beach with striking red/orange cliffs. Great for a final swim.", tag: "transit" },
+      { time: "6:30 PM", text: "Back to Albufeira, pack up, freshen up", tag: "transit" },
+      { time: "8:30 PM", text: "Farewell dinner in Albufeira — splurge at Vila Joya Beach (Michelin-starred) or keep it casual at your favorite spot from the trip" },
+      { time: "10:30 PM", text: "Pack for Lisbon! Early-ish start tomorrow." },
     ],
-    notes: "Your Airbnb is a 10-min walk from Martim Moniz / Rua do Benformoso — one of Lisbon's most vibrant food neighborhoods with tons of halal options. Cervejaria Ramiro is one of Lisbon's most legendary seafood spots — worth the wait.",
+    notes: "Praia da Marinha is stunning but has steep stairs down. Bring good shoes, water, sunscreen. Tomorrow you head to Lisbon — about 2.5 hours by bus or 2 hours by car.",
   },
   {
-    day: 2, date: "Thu, June 4", title: "Belém + Vintage Shopping", vibe: "Age of Discovery, custard tarts, thrifting", color: "#C4D7A4",
-    transport: { label: "Airbnb → Belém", detail: "Green Line: Anjos → Cais do Sodré (6 stops, ~12 min). Then tram 15E or bus 728 to Belém (~20 min). OR Uber ~€7 direct." },
-    booking: { urgency: "now", text: "Book Jerónimos Monastery tickets — timed entry, sells out in June.\n→ patrimoniocultural.gov.pt" },
+    day: 4, date: "Sat, June 6", title: "Albufeira → Lisbon", vibe: "Travel day, explore downtown Lisbon", color: "#E8D5B7",
+    transport: { label: "Albufeira → Lisbon", detail: "Rede Expressos bus: Albufeira → Lisbon Sete Rios (~2.5 hours, ~€20). Book ahead at rede-expressos.pt. From Sete Rios: Uber to Airbnb (~€8, 15 min) or metro Yellow Line → Green Line. OR rent car/Uber direct (~2 hours, €100+)." },
+    booking: { urgency: "now", text: "Book Rede Expressos bus to Lisbon → rede-expressos.pt\nMorning departure recommended (9am or 10am)" },
     items: [
-      { time: "9:00 AM", text: "Green Line to Cais do Sodré → tram 15E to Belém (~35 min total)", tag: "transit" },
-      { time: "9:30 AM", text: "Jerónimos Monastery — your friend's #1 highlight. Stunning Manueline architecture, tomb of Vasco da Gama." },
-      { time: "11:00 AM", text: "Pastéis de Belém — the original bakery since 1837. Pastel de nata warm with cinnamon. Line moves fast." },
-      { time: "11:45 AM", text: "Monument to the Discoveries — waterfront monument shaped like a ship's prow" },
-      { time: "12:15 PM", text: "Torre de Belém — iconic riverside tower (worth seeing from outside, interior optional)" },
-      { time: "1:00 PM", text: "Lunch in Belém — Ponto Final across the river is famous for cheap seafood with a view, or eat casual near the waterfront" },
-      { time: "2:30 PM", text: "Tram 15E back toward central Lisbon. Get off near Chiado.", tag: "transit" },
-      { time: "3:00 PM", text: "Calçada do Carmo vintage strip (between Chiado & Rossio) — Ás de Espadas for curated vintage, newJester for men's" },
-      { time: "4:00 PM", text: "POP Closet (Chiado) — designer consignment, Prada/Gucci/Nike secondhand. Huge new warehouse." },
-      { time: "5:00 PM", text: "Ride Santa Justa Elevator for rooftop views, browse Rua Garrett, coffee at A Brasileira" },
-      { time: "7:00 PM", text: "Walk through Bairro Alto as it comes alive" },
-      { time: "9:00 PM", text: "Dinner in Bairro Alto — Sea Me (seafood + sushi, great vibe) or O Velho Eurico (traditional, good grilled fish)" },
-      { time: "10:30 PM", text: "Bars in Bairro Alto — the streets fill up late. Green Line Baixa-Chiado → Anjos when done.", tag: "transit" },
+      { time: "8:00 AM", text: "Breakfast, final pack, check out of Albufeira accommodation" },
+      { time: "9:00 AM", text: "Bus from Albufeira to Lisbon Sete Rios (~2.5 hours)", tag: "transit" },
+      { time: "11:30 AM", text: "Arrive Lisbon Sete Rios. Uber to Airbnb (~€8) or metro to your area", tag: "transit" },
+      { time: "12:30 PM", text: "Arrive Airbnb area — drop bags (check-in likely 3pm)" },
+      { time: "1:00 PM", text: "Lunch nearby or head to Cervejaria Ramiro (famous seafood, locals line up for shrimp and crab)" },
+      { time: "2:30 PM", text: "Metro or Uber to Baixa — Lisbon's downtown grid" },
+      { time: "3:00 PM", text: "Check into Airbnb, quick refresh" },
+      { time: "4:00 PM", text: "Praça do Comércio — grand waterfront square, coffee at the arcaded cafés" },
+      { time: "5:00 PM", text: "Wander Rua Augusta, Rossio Square & Praça da Figueira" },
+      { time: "6:30 PM", text: "Walk up to Chiado/Bairro Alto neighborhood" },
+      { time: "8:00 PM", text: "Dinner in Bairro Alto — Sea Me (seafood + sushi, great vibe) or O Velho Eurico (traditional grilled fish)" },
+      { time: "10:00 PM", text: "Explore Bairro Alto nightlife — streets fill up late! Check Reddit for current hot spots. Uber home when done (~€6–8).", tag: "transit" },
     ],
-    notes: "The Calçada do Carmo stairs between Chiado and Rossio have several vintage shops clustered together — easy thrift crawl after Belém.",
+    notes: "Your Lisbon Airbnb is near " + LISBON_AIRBNB + " (confirm address when booked). Get a Viva Viagem card at any metro station and load with 'zapping' credit for all public transit.",
   },
   {
-    day: 3, date: "Fri, June 5", title: "Sintra Day Trip", vibe: "Fairytale palaces, mystical gardens", color: "#A8C5D6",
-    transport: { label: "Airbnb → Sintra", detail: "Green Line: Anjos → Martim Moniz (1 stop). Walk 5 min to Rossio train station. Train to Sintra ~50 min, ~€5 roundtrip. In Sintra, bus 434 to palaces." },
-    booking: { urgency: "now", text: "Book Pena Palace tickets (timed entry!) → parquesdesintra.pt\nBook Quinta da Regaleira tickets → rfregaleira.pt" },
+    day: 5, date: "Sun, June 7", title: "Belém — The Highlight", vibe: "Age of Discovery, custard tarts, monasteries", color: "#A8C5D6",
+    transport: { label: "Airbnb → Belém", detail: "Metro to Cais do Sodré, then tram 15E or bus 728 to Belém (~20 min). OR Uber direct ~€8–10." },
+    booking: { urgency: "now", text: "Book Jerónimos Monastery tickets — timed entry, sells out in June!\n→ patrimoniocultural.gov.pt" },
     items: [
-      { time: "8:00 AM", text: "Green Line Anjos → Martim Moniz (1 stop). Walk 5 min to Rossio Station. Train to Sintra.", tag: "transit" },
-      { time: "9:00 AM", text: "Arrive Sintra — bus 434 up to Pena Palace (~20 min)", tag: "transit" },
-      { time: "9:30 AM", text: "Palácio da Pena — colorful Romanticist palace. Terraces, staterooms, park. GO EARLY to beat crowds." },
-      { time: "11:30 AM", text: "Walk to Castelo dos Mouros (~10 min from Pena) — ancient Moorish walls with panoramic views" },
-      { time: "12:30 PM", text: "Bus 434 down to Sintra town center", tag: "transit" },
-      { time: "1:00 PM", text: "Lunch in Sintra — try travesseiros (almond pastry) at Piriquita. Incomum (in town center) is great for a sit-down meal with seafood options." },
-      { time: "2:30 PM", text: "Walk to Quinta da Regaleira (~10 min) — mysterious gardens, the famous Initiation Well, grottoes, tunnels" },
+      { time: "9:00 AM", text: "Metro to Cais do Sodré → tram 15E to Belém", tag: "transit" },
+      { time: "9:30 AM", text: "Jerónimos Monastery — THE highlight of the trip! Stunning Manueline architecture, intricate cloisters, tomb of Vasco da Gama. Take your time here." },
+      { time: "11:30 AM", text: "Pastéis de Belém — the original bakery since 1837. THE famous place for pastel de nata. Warm with cinnamon. Line moves fast, worth it!" },
+      { time: "12:15 PM", text: "Monument to the Discoveries — waterfront monument shaped like a ship's prow. Great views, same area as monastery." },
+      { time: "1:00 PM", text: "Torre de Belém — iconic riverside tower (worth seeing from outside, interior optional)" },
+      { time: "1:30 PM", text: "Lunch in Belém — Ponto Final across the river (cheap seafood with views) or casual near the waterfront" },
+      { time: "3:00 PM", text: "Tram 15E back toward central Lisbon. Get off at Chiado.", tag: "transit" },
+      { time: "3:30 PM", text: "Walk through Chiado — Rua Garrett shops, coffee at A Brasileira, ride Santa Justa Elevator for rooftop views" },
+      { time: "5:30 PM", text: "Head to Bairro Alto as it comes alive — browse streets, early dinner" },
+      { time: "7:30 PM", text: "Dinner — try somewhere new or revisit a favorite" },
+      { time: "9:30 PM", text: "Optional: Bairro Alto nightlife round 2, or rest up for Sintra tomorrow" },
+    ],
+    notes: "Belém is a must-do. Jerónimos Monastery and Pastéis de Belém are walking distance from each other. Monument to the Discoveries is on the waterfront nearby — do all three in the morning!",
+  },
+  {
+    day: 6, date: "Mon, June 8", title: "Sintra Day Trip", vibe: "Fairytale palaces, mystical gardens", color: "#B8A9D4",
+    transport: { label: "Airbnb → Sintra", detail: "Metro or Uber to Rossio train station. Train to Sintra ~50 min, ~€5 roundtrip. In Sintra, bus 434 to palaces." },
+    booking: { urgency: "now", text: "Book Pena Palace tickets (timed entry!) → parquesdesintra.pt\nBook Quinta da Regaleira tickets → rfregaleira.pt\nGO EARLY — this is essential for Sintra!" },
+    items: [
+      { time: "7:30 AM", text: "Metro or Uber to Rossio Station. Train to Sintra (~50 min).", tag: "transit" },
+      { time: "8:30 AM", text: "Arrive Sintra — bus 434 up to Pena Palace (~20 min)", tag: "transit" },
+      { time: "9:00 AM", text: "Palácio da Pena — colorful Romanticist palace. Terraces, staterooms, park. Being early is key to beating crowds!" },
+      { time: "11:00 AM", text: "Walk to Castelo dos Mouros (~10 min from Pena) — ancient Moorish walls with panoramic views" },
+      { time: "12:00 PM", text: "Bus 434 down to Sintra town center", tag: "transit" },
+      { time: "12:30 PM", text: "Lunch in Sintra — try travesseiros (almond pastry) at Piriquita. Incomum is great for a sit-down meal." },
+      { time: "2:00 PM", text: "Walk to Quinta da Regaleira (~10 min) — mysterious gardens, the famous Initiation Well, grottoes, tunnels" },
       { time: "4:30 PM", text: "Optional: Palácio Nacional de Sintra in the town square" },
-      { time: "5:30 PM", text: "Walk to train station (~20 min). Train to Rossio, Green Line home.", tag: "transit" },
+      { time: "5:30 PM", text: "Walk to train station (~20 min). Train to Rossio, metro or Uber home.", tag: "transit" },
       { time: "7:00 PM", text: "Back in Lisbon — shower, rest a bit" },
-      { time: "9:30 PM", text: "Dinner — Taberna do Sal Grosso (modern Portuguese, great octopus and fish) or grab something on Rua do Benformoso" },
+      { time: "9:00 PM", text: "Dinner — Taberna do Sal Grosso (modern Portuguese, great octopus) or explore near your Airbnb" },
     ],
-    notes: "Wear comfortable shoes — very hilly. Bring water and sunscreen. The 434 bus can have long afternoon lines; consider walking down from palaces.",
+    notes: "Wear comfortable shoes — Sintra is very hilly. Bring water and sunscreen. The 434 bus can have long afternoon lines; leaving early makes a huge difference!",
   },
   {
-    day: 4, date: "Sat, June 6", title: "Feira da Ladra + Alfama + Fado", vibe: "Flea market, old Lisbon, live music", color: "#D6A8C5",
-    transport: { label: "Airbnb → Feira da Ladra → Alfama", detail: "Walk! Feira da Ladra at Campo de Santa Clara is ~10 min walk from your Airbnb. Then Castelo & Alfama are right there." },
-    booking: { urgency: "soon", text: "Reserve Fado dinner for tonight — A Baiuca or Parreirinha de Alfama. Call/email a few days ahead, fills up Saturdays.\nOptional: Castelo de São Jorge tickets → castelodesaojorge.pt (skip the line)" },
+    day: 7, date: "Tue, June 9", title: "Alfama + Castle + Fado Night", vibe: "Old Lisbon, flea market, live music", color: "#D6A8C5",
+    transport: { label: "Airbnb → Feira da Ladra → Alfama", detail: "Metro to Santa Apolónia (Blue Line) or Uber to Campo de Santa Clara for Feira da Ladra. Castelo & Alfama are walkable from there." },
+    booking: { urgency: "soon", text: "Reserve Fado dinner — Solido (Alae's rec, great octopus!) or A Baiuca (amateur, locals sing) or Parreirinha de Alfama (classic). Call/email a few days ahead.\nOptional: Castelo de São Jorge tickets → castelodesaojorge.pt (skip the line)" },
     items: [
-      { time: "9:00 AM", text: "Walk from Airbnb to Feira da Ladra flea market (~10 min to Campo de Santa Clara)", tag: "transit" },
-      { time: "9:00 AM", text: "Feira da Ladra — Lisbon's oldest flea market (since 1272!). Vintage clothes, antiques, vinyl, azulejo tiles, art. Get there early for best finds. Bring cash." },
+      { time: "9:00 AM", text: "Metro or Uber to Feira da Ladra flea market (Campo de Santa Clara)", tag: "transit" },
+      { time: "9:00 AM", text: "Feira da Ladra — Lisbon's oldest flea market (Tuesdays & Saturdays). Vintage clothes, antiques, vinyl, azulejo tiles. Get there early, bring cash!" },
       { time: "11:00 AM", text: "Walk uphill to Castelo de São Jorge (~10 min from market)", tag: "transit" },
-      { time: "11:15 AM", text: "Castelo de São Jorge — Lisbon's hilltop castle, best city views" },
-      { time: "12:30 PM", text: "Wander down through Alfama — Lisbon's oldest neighborhood. Get intentionally lost." },
-      { time: "12:45 PM", text: "Miradouro de Santa Luzia & Portas do Sol — stunning viewpoints over rooftops" },
-      { time: "1:00 PM", text: "Sé de Lisboa (Lisbon Cathedral) — 12th-century fortress-church" },
+      { time: "11:15 AM", text: "Castelo de São Jorge — Lisbon's hilltop castle, best city views. Near downtown as your friend mentioned!" },
+      { time: "12:30 PM", text: "Wander down through Alfama — Lisbon's oldest neighborhood. Get intentionally lost in the winding streets." },
+      { time: "1:00 PM", text: "Miradouro de Santa Luzia & Portas do Sol — stunning viewpoints over rooftops" },
       { time: "1:30 PM", text: "Lunch in Alfama — Chapitô à Mesa (great grilled fish with panoramic views) or any tasca with sardinhas" },
-      { time: "3:00 PM", text: "Fado Museum — learn about Portugal's music before hearing it live tonight" },
-      { time: "4:00 PM", text: "Malala Vintage — right on edge of Alfama (R. Arco da Graça 51). Curated vintage, great silk blouses." },
-      { time: "5:00 PM", text: "National Tile Museum (Museu do Azulejo) — east of Alfama, ~10 min walk" },
-      { time: "6:30 PM", text: "Walk home (uphill ~15 min or Uber ~€4). Rest and freshen up.", tag: "transit" },
-      { time: "9:00 PM", text: "Fado dinner in Alfama — A Baiuca (amateur, locals sing) or Parreirinha de Alfama (classic). Both serve seafood and traditional dishes." },
-      { time: "11:30 PM", text: "Walk or Uber home (~€4, 5 min)", tag: "transit" },
+      { time: "3:00 PM", text: "Sé de Lisboa (Lisbon Cathedral) — 12th-century fortress-church" },
+      { time: "3:30 PM", text: "Optional: Fado Museum — learn about Portugal's music before hearing it live tonight" },
+      { time: "5:00 PM", text: "Uber home (~€6–8). Rest and freshen up for Fado dinner.", tag: "transit" },
+      { time: "8:30 PM", text: "Fado dinner in Alfama — Solido (Alae's favorite, amazing octopus!) or A Baiuca or Parreirinha de Alfama. Traditional food + live Fado music." },
+      { time: "11:00 PM", text: "Uber home (~€6–8)", tag: "transit" },
     ],
-    notes: "SATURDAY = Feira da Ladra day! Arrive by 9am for best vintage finds, vendors pack up by 2pm. Your Airbnb location is perfect for this.",
+    notes: "TUESDAY = Feira da Ladra day! Arrive by 9am for best vintage finds, vendors pack up by 2pm. Fado dinner is a must — book ahead, it's an unforgettable Lisbon experience.",
   },
   {
-    day: 5, date: "Sun, June 7", title: "Cascais Day Trip", vibe: "Beach, seafood, coastal charm", color: "#F2C879",
-    transport: { label: "Airbnb → Cascais", detail: "Green Line: Anjos → Cais do Sodré (6 stops, ~12 min). Adjacent train station, Cascais commuter line (every 20 min, ~35 min, ~€4.50 roundtrip). Scenic ride!" },
+    day: 8, date: "Wed, June 10", title: "Flex Day — Portugal Day!", vibe: "National holiday, revisit favorites", color: "#9DC5BB",
+    transport: { label: "Explore freely", detail: "Metro, Uber, or walk. Most places in Lisbon are 15–25 min by metro or ~€6–10 by Uber." },
     booking: null,
     items: [
-      { time: "9:30 AM", text: "Green Line Anjos → Cais do Sodré. Adjacent train station, take Cascais line (~35 min).", tag: "transit" },
-      { time: "10:15 AM", text: "Arrive Cascais — stroll town center, Praia da Rainha beach" },
-      { time: "11:00 AM", text: "Walk or bike to Boca do Inferno (Hell's Mouth) — dramatic coastal cliffs, ~20 min walk" },
-      { time: "12:00 PM", text: "Casa das Histórias Paula Rego — modern art museum (if interested)" },
-      { time: "1:00 PM", text: "Lunch — Cascais is a seafood town. Try the grilled fish at any waterfront spot, or check the street arts district (Rua Alfonso Sanches) for more variety." },
-      { time: "2:30 PM", text: "Beach time! Praia da Conceição or Praia da Rainha" },
-      { time: "5:00 PM", text: "Gelato, walk the marina, browse shops" },
-      { time: "6:00 PM", text: "Optional: get off return train at Estoril for the famous casino and gardens" },
-      { time: "7:00 PM", text: "Train to Cais do Sodré, Green Line to Anjos", tag: "transit" },
-      { time: "8:30 PM", text: "Dinner at Time Out Market (Mercado da Ribeira) — right at Cais do Sodré. Huge food hall, tons of seafood stalls." },
-      { time: "10:30 PM", text: "Walk around Cais do Sodré / Pink Street for drinks if you're up for it" },
-    ],
-    notes: "Cascais is flat and relaxed. Sit on the right side of the train going out for ocean views. Bring sunscreen and swimsuit.",
-  },
-  {
-    day: 6, date: "Mon, June 8", title: "Porto Day Trip", vibe: "Bridges, river views, bookstores", color: "#B8A9D4",
-    transport: { label: "Airbnb → Porto", detail: "Green Line: Anjos → Alameda, transfer Red Line → Oriente (~20 min). Alfa Pendular train to Porto Campanhã (~2h 45min). In Porto: local train Campanhã → São Bento (5 min)." },
-    booking: { urgency: "now", text: "Book Alfa Pendular round-trip ASAP → cp.pt\nPromo fares up to 50% off, sells out. ~€36/way full price.\nAlso: Livraria Lello ticket → livrarialello.pt (~€8, redeemable on a book)" },
-    items: [
-      { time: "6:30 AM", text: "Green Line Anjos → Alameda → Red Line → Oriente station", tag: "transit" },
-      { time: "7:00 AM", text: "Alfa Pendular departs Oriente → Porto (~2h 45min). Bring snacks.", tag: "transit" },
-      { time: "9:45 AM", text: "Arrive Campanhã. Local train to São Bento (5 min) — admire azulejo tiles inside", tag: "transit" },
-      { time: "10:15 AM", text: "Walk through Ribeira — colorful waterfront, UNESCO World Heritage" },
-      { time: "11:00 AM", text: "Cross Dom Luís I Bridge (upper deck) for stunning views" },
-      { time: "11:30 AM", text: "Jardim do Morro — your friend's rec! Walk along the Cais de Gaia waterfront. Pop into a riverside bar." },
-      { time: "1:00 PM", text: "Lunch — bacalhau à brás (shredded cod with eggs and potatoes), seafood rice, or grilled octopus. Adega São Nicolau in Ribeira is great for seafood." },
-      { time: "2:30 PM", text: "Livraria Lello — one of the world's most beautiful bookstores" },
-      { time: "3:15 PM", text: "Clérigos Tower — climb for panoramic views" },
-      { time: "4:00 PM", text: "Wander — Igreja do Carmo tiles, Majestic Café for a coffee" },
-      { time: "5:30 PM", text: "Walk or metro to Campanhã station", tag: "transit" },
-      { time: "6:00 PM", text: "Train back (~2h 45min). Arrive Oriente ~8:45pm, Red+Green Line home.", tag: "transit" },
-      { time: "9:30 PM", text: "Late dinner near Airbnb — Khayyam (Persian, halal, one of the top-rated restaurants in Lisbon) or something quick on Rua do Benformoso" },
-    ],
-    notes: "Long day (~5.5 hours on trains) but absolutely worth it. Book train tickets ASAP on cp.pt. Porto is walkable — no local transit needed beyond São Bento transfer.",
-  },
-  {
-    day: 7, date: "Tue, June 9", title: "Óbidos + Thrift Crawl", vibe: "Medieval village, vintage shopping", color: "#E8B4A0",
-    transport: { label: "Airbnb → Óbidos → Thrifting", detail: "Green Line: Anjos → Campo Grande (direct, ~10 min). Walk to bus terminal east side. Rápida Verde bus ~1 hr, ~€9/way. Buy from driver, cash only." },
-    booking: null,
-    items: [
-      { time: "8:15 AM", text: "Green Line Anjos → Campo Grande. Walk to bus terminal east side.", tag: "transit" },
-      { time: "8:30 AM", text: "Bus to Óbidos (~1 hour). Buy ticket from driver, cash only.", tag: "transit" },
-      { time: "9:45 AM", text: "Arrive Óbidos — enter through Porta da Vila gate, admire blue tiles" },
-      { time: "10:00 AM", text: "Walk the medieval town walls — panoramic views over rooftops and countryside" },
-      { time: "10:45 AM", text: "Wander Rua Direita — shops, galleries, bookstore in old church (Livraria de Santiago)" },
-      { time: "11:15 AM", text: "Try ginjinha in a chocolate cup — cherry liqueur in an edible chocolate shot glass" },
-      { time: "12:00 PM", text: "Lunch in Óbidos — good grilled chicken and seafood options" },
-      { time: "1:00 PM", text: "Bus back to Campo Grande (~1 hour)", tag: "transit" },
-      { time: "2:30 PM", text: "Tuesday = Feira da Ladra again! Head to Campo de Santa Clara (~10 min walk from Airbnb) if you want round 2. Vendors start packing ~2pm so go quick." },
-      { time: "3:30 PM", text: "Neighborhood thrift crawl — Retro City Vintage (Intendente, ~10 min walk from Airbnb) and Retrox (Rua dos Anjos 4C, practically next door)" },
-      { time: "4:30 PM", text: "Humana Vintage (multiple locations) — biggest charity thrift chain in Lisbon. Budget-friendly, wide selection." },
-      { time: "6:00 PM", text: "Uber to LX Factory (~€6) — converted industrial complex with indie shops, vintage stores, bookstores, street art", tag: "transit" },
-      { time: "7:30 PM", text: "Dinner at LX Factory — Landeau Chocolate (famous chocolate cake) or any of the restaurants there" },
-      { time: "9:30 PM", text: "Head to Bairro Alto for nightlife — bars open ~10pm, streets fill up. Green Line Baixa-Chiado → Anjos when done.", tag: "transit" },
-    ],
-    notes: "Tuesday is also a Feira da Ladra day — you might catch the tail end after Óbidos. Retro City and Retrox are both walkable from your Airbnb. Bring cash for Óbidos bus + flea market.",
-  },
-  {
-    day: 8, date: "Wed, June 10", title: "Flex Day & Farewell", vibe: "Portugal Day holiday, revisit favorites", color: "#9DC5BB",
-    transport: { label: "Explore freely", detail: "Metro, Uber, or walk. Your Airbnb is central — most places 15–25 min by metro. Tomorrow: Anjos → Alameda → Aeroporto (Red Line), ~30 min. Or Uber ~€10." },
-    booking: null,
-    items: [
-      { time: "—", text: "June 10 = Dia de Portugal (national holiday). Some shops close but expect festivities!" },
-      { time: "10:30 AM", text: "Sleep in! Revisit a favorite spot or hit anything you missed" },
-      { time: "11:30 AM", text: "Ideas: Parque das Nações + Oceanário (Red Line → Oriente), Estrela Basilica (tram 28), Príncipe Real neighborhood" },
-      { time: "12:00 PM", text: "More thrifting? São Bento vintage cluster — Trading Post (curated luxury vintage) and Pink Vintage Heart (playful, 80s/90s). Both on the same street." },
-      { time: "1:30 PM", text: "Long farewell lunch — Cervejaria Ramiro if you didn't go Day 1, or Zaafran (upscale Indian, halal, Rua de São José 35) for a special meal" },
-      { time: "3:30 PM", text: "Souvenir shopping — azulejo tiles, cork products, canned sardines (a legit Portuguese tradition), olive oil, vintage finds" },
+      { time: "—", text: "June 10 = Dia de Portugal (national holiday). Some shops close but expect festivities and celebrations!" },
+      { time: "10:00 AM", text: "Sleep in! Leisurely breakfast" },
+      { time: "11:00 AM", text: "Revisit a favorite spot or hit anything you missed" },
+      { time: "12:00 PM", text: "Ideas: Cascais beach day trip (train from Cais do Sodré, 35 min), Parque das Nações + Oceanário, Príncipe Real neighborhood, LX Factory" },
+      { time: "1:30 PM", text: "Long leisurely lunch — Cervejaria Ramiro if you haven't yet (famous seafood!)" },
+      { time: "3:30 PM", text: "Souvenir shopping — azulejo tiles, cork products, canned sardines (a legit Portuguese tradition), olive oil" },
       { time: "5:30 PM", text: "Golden hour at Miradouro do Monte Agudo (on your street!) or Miradouro da Graça for sunset photos" },
-      { time: "7:00 PM", text: "Walk around Príncipe Real or revisit a favorite neighborhood" },
+      { time: "7:30 PM", text: "Walk around Príncipe Real or revisit Bairro Alto" },
       { time: "9:30 PM", text: "Final dinner — go somewhere you loved or try somewhere new" },
       { time: "11:00 PM", text: "Pack up! Flight at 10am tomorrow. Set two alarms." },
     ],
-    notes: "Tomorrow: airport by 7:30am. Green Line Anjos → Alameda, Red Line → Aeroporto (~30 min, ~€1.50). Or Uber ~€10, 15 min. Metro opens 6:30am. Some shops may be closed for Portugal Day.",
+    notes: "Portugal Day is a national holiday — enjoy the festive atmosphere! Some shops may be closed but restaurants are open. Good day for a beach trip to Cascais if weather is nice.",
+  },
+  {
+    day: 9, date: "Thu, June 11", title: "Departure", vibe: "Até logo, Portugal!", color: "#E8D5B7",
+    transport: { label: "Airbnb → Lisbon Airport", detail: "Uber to airport (~€10–15, 15–20 min). OR Metro Red Line → Aeroporto (~30 min, ~€1.50). Metro opens 6:30am." },
+    booking: null,
+    items: [
+      { time: "6:30 AM", text: "Wake up, final pack, check you have passport + tickets" },
+      { time: "7:00 AM", text: "Uber or metro to Lisbon Airport (LIS)", tag: "transit" },
+      { time: "7:30 AM", text: "Arrive airport — aim for 2.5 hours before international flight" },
+      { time: "10:00 AM", text: "DL0273 departs Lisbon → JFK (arrives 12:47pm same day)" },
+    ],
+    notes: "Don't forget: passport, all chargers, any souvenirs! Até logo, Portugal — until next time!",
   },
 ];
 
@@ -172,34 +174,37 @@ const packingList = [
     { text: "Phone + charger + portable battery", priority: true },
     { text: "EU adapter plug (Type F, round 2-pin)", priority: true },
     { text: "Credit/debit card (no foreign transaction fee)", priority: true },
-    { text: "Cash — euros for Óbidos bus, Feira da Ladra, tips", priority: true },
-    { text: "Flight confirmations (DL0272 / DL0273)", priority: false },
-    { text: "Airbnb address: R. Heliodoro Salgado 81", priority: false },
-    { text: "All pre-booked tickets (monastery, palaces, train)", priority: false },
+    { text: "Cash — euros for buses, Feira da Ladra, tips", priority: true },
+    { text: "Flight confirmations (DL0272 out, DL0273 return)", priority: false },
+    { text: "Albufeira accommodation: ~23B R. Guerra Junqueiro (June 3–6)", priority: false },
+    { text: "Lisbon Airbnb: ~2 R. Cap. Henrique Galvão (June 6–11)", priority: false },
+    { text: "All pre-booked tickets (monastery, palaces, Benagil tour, bus)", priority: false },
     { text: "Travel insurance docs", priority: false },
   ]},
-  { category: "Clothing (8 days, early June)", icon: "👕", items: [
+  { category: "Clothing (9 days, early June)", icon: "👕", items: [
     { text: "Comfortable walking shoes — cobblestones + hills daily!", priority: true },
-    { text: "Light layers — Lisbon is 75–85°F but evenings cool", priority: false },
-    { text: "Sandals / flip-flops for Cascais beach day", priority: false },
-    { text: "Swimsuit + quick-dry towel", priority: false },
+    { text: "Light layers — 75–85°F days, cooler evenings", priority: false },
+    { text: "Sandals / flip-flops for Algarve beaches", priority: false },
+    { text: "Swimsuit + quick-dry towel (bring 2 for beach days)", priority: true },
     { text: "Light jacket or hoodie (evenings + Sintra is cooler)", priority: false },
     { text: "One nicer outfit for Fado dinner", priority: false },
-    { text: "Hat + sunglasses", priority: false },
-    { text: "Tote bag or foldable bag for thrift/market finds", priority: false },
+    { text: "Hat + sunglasses", priority: true },
+    { text: "Tote bag or foldable bag for market finds", priority: false },
+    { text: "Beach cover-up / sarong", priority: false },
   ]},
-  { category: "Day Trip Bag", icon: "🧳", items: [
+  { category: "Beach & Day Trip Bag", icon: "🧳", items: [
     { text: "Small daypack / backpack", priority: true },
     { text: "Reusable water bottle (refill everywhere)", priority: false },
-    { text: "Sunscreen SPF 30+", priority: false },
-    { text: "Snacks for Porto train ride (2h 45min each way)", priority: false },
+    { text: "Sunscreen SPF 30+ (essential for Algarve!)", priority: true },
+    { text: "Waterproof phone pouch (for boat tours)", priority: false },
+    { text: "Snacks for bus rides (Albufeira→Lisbon is 2.5 hours)", priority: false },
     { text: "Compact umbrella or light rain jacket (just in case)", priority: false },
   ]},
   { category: "Nice to Have", icon: "✨", items: [
-    { text: "Camera", priority: false },
-    { text: "Book or Kindle for train rides", priority: false },
+    { text: "Camera (or just phone — the views are incredible)", priority: false },
+    { text: "Book or Kindle for bus/beach", priority: false },
     { text: "Ziplock bags for toiletries / wet swimsuit", priority: false },
-    { text: "Google Maps offline — download Lisbon, Sintra, Porto, Cascais", priority: false },
+    { text: "Google Maps offline — download Algarve, Lisbon, Sintra", priority: false },
     { text: "Small notebook for recs from locals", priority: false },
   ]},
 ];
@@ -217,8 +222,8 @@ export default function PortugalItinerary() {
       <div style={{ background: "linear-gradient(135deg,#1a3a4a 0%,#2d5a3f 50%,#4a6741 100%)", padding: "24px 20px 18px", color: "#FDFBF7", textAlign: "center" }}>
         <div style={{ fontSize: 11, letterSpacing: 4, textTransform: "uppercase", opacity: 0.6, marginBottom: 4 }}>Your Trip</div>
         <h1 style={{ fontSize: 30, fontWeight: 400, margin: "0 0 3px", letterSpacing: 1 }}>Portugal</h1>
-        <div style={{ fontSize: 13, opacity: 0.75 }}>June 3–11, 2026 · Lisbon</div>
-        <div style={{ fontSize: 11, opacity: 0.45, marginTop: 2 }}>📍 {AIRBNB} · 🚇 Anjos (Green Line) · ✈️ Delta</div>
+        <div style={{ fontSize: 13, opacity: 0.75 }}>June 3–11, 2026 · Algarve & Lisbon</div>
+        <div style={{ fontSize: 11, opacity: 0.45, marginTop: 2 }}>✈️ DL0272/DL0273 JFK↔LIS · 🏖️ Albufeira (3–6) · 🏛️ Lisbon (6–11)</div>
       </div>
       <div style={{ display: "flex", background: "#22473a" }}>
         {tabs.map((t) => (<button key={t.id} type="button" onClick={() => setActiveTab(t.id)} style={{ flex: 1, padding: "10px 0 8px", border: "none", borderBottom: activeTab === t.id ? "3px solid #F2C879" : "3px solid transparent", background: activeTab === t.id ? "rgba(255,255,255,0.08)" : "transparent", color: activeTab === t.id ? "#fff" : "rgba(255,255,255,0.45)", cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: activeTab === t.id ? 700 : 400 }}>{t.label}</button>))}
@@ -256,20 +261,22 @@ export default function PortugalItinerary() {
           </div>
         </div>)}
         {activeTab === "book" && (<div>
-          <div style={{ marginTop: 20, marginBottom: 16 }}><h2 style={{ fontSize: 22, fontWeight: 400, margin: "0 0 3px" }}>Book Ahead of Time</h2><div style={{ fontSize: 13, color: "#8B7E6A", fontStyle: "italic" }}>June is peak season — don't wait</div></div>
+          <div style={{ marginTop: 20, marginBottom: 16 }}><h2 style={{ fontSize: 22, fontWeight: 400, margin: "0 0 3px" }}>Book Ahead of Time</h2><div style={{ fontSize: 13, color: "#8B7E6A", fontStyle: "italic" }}>June is peak season — don't wait!</div></div>
           {[
             { label: "Book Now", color: "#9B2C2C", bg: "#FFF8F0", border: "#F0D8B8", items: [
-              { text: "Jerónimos Monastery tickets", sub: "Timed entry, sells out · Day 2", url: "patrimoniocultural.gov.pt" },
-              { text: "Pena Palace tickets (Sintra)", sub: "Timed morning slot · Day 3", url: "parquesdesintra.pt" },
-              { text: "Quinta da Regaleira tickets", sub: "Timed entry · Day 3", url: "rfregaleira.pt" },
-              { text: "Porto Alfa Pendular train", sub: "Round trip June 8. Promo fares 50% off · Day 6", url: "cp.pt" },
-              { text: "Livraria Lello ticket", sub: "€8, redeemable on book · Day 6", url: "livrarialello.pt" },
+              { text: "Albufeira accommodation (3 nights)", sub: "June 3–6 · Day 1–3", url: "booking.com or airbnb.com" },
+              { text: "Rede Expressos bus: Lisbon → Albufeira", sub: "June 3, ~10:30am departure · Day 1", url: "rede-expressos.pt" },
+              { text: "Benagil Cave boat/kayak tour", sub: "Sells out! From Albufeira Marina · Day 2", url: "getyourguide.com or viator.com" },
+              { text: "Rede Expressos bus: Albufeira → Lisbon", sub: "June 6, morning departure · Day 4", url: "rede-expressos.pt" },
+              { text: "Jerónimos Monastery tickets", sub: "Timed entry, sells out · Day 5", url: "patrimoniocultural.gov.pt" },
+              { text: "Pena Palace tickets (Sintra)", sub: "Timed EARLY morning slot · Day 6", url: "parquesdesintra.pt" },
+              { text: "Quinta da Regaleira tickets", sub: "Timed entry · Day 6", url: "rfregaleira.pt" },
             ]},
             { label: "Book 1 Week Before", color: "#8B6914", bg: "#FFFCF0", border: "#F0E8C0", items: [
-              { text: "Fado dinner reservation", sub: "A Baiuca or Parreirinha de Alfama · Sat June 6 · Day 4", url: "" },
+              { text: "Fado dinner reservation", sub: "Solido (Alae's rec!), A Baiuca, or Parreirinha · Tue June 9 · Day 7", url: "" },
             ]},
             { label: "Optional (Skip the Line)", color: "#6B7F5E", bg: "#F8F6F2", border: "#E0D8C8", items: [
-              { text: "Castelo de São Jorge tickets", sub: "Can buy on-site · Day 4", url: "castelodesaojorge.pt" },
+              { text: "Castelo de São Jorge tickets", sub: "Can buy on-site · Day 7", url: "castelodesaojorge.pt" },
             ]},
           ].map((s, si) => (<div key={si} style={{ marginBottom: 20 }}>
             <div style={{ fontSize: 12, fontWeight: 700, color: s.color, textTransform: "uppercase", letterSpacing: 1, marginBottom: 8 }}>{s.label}</div>
@@ -281,16 +288,18 @@ export default function PortugalItinerary() {
           <div style={{ padding: "12px 14px", background: "#F5F0E8", borderLeft: "4px solid #B8A9D4", borderRadius: "0 6px 6px 0", fontSize: 12, lineHeight: 1.7, color: "#5A4E3A" }}>
             <strong style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1 }}>General Tips</strong>
             <div style={{ marginTop: 4 }}>
-              <div>• <strong>Viva Viagem card</strong> — Anjos metro. Zapping credit for all transit.</div>
-              <div>• <strong>Uber/Bolt</strong> — ~€5–8 most rides.</div>
-              <div>• <strong>Home station</strong> — Anjos (Green Line), 5 min walk.</div>
+              <div>• <strong>June 3</strong> — Land Lisbon 8am (DL0272). Bus to Albufeira (~2.5 hours).</div>
+              <div>• <strong>Albufeira (June 3–6)</strong> — 3 nights in Algarve. Book accommodation!</div>
+              <div>• <strong>Lisbon (June 6–11)</strong> — Bus back from Albufeira (~2.5 hours).</div>
+              <div>• <strong>Viva Viagem card</strong> — Get at any Lisbon metro. Zapping credit for all transit.</div>
+              <div>• <strong>Uber/Bolt</strong> — ~€5–10 most rides in cities.</div>
               <div>• <strong>June 10</strong> — Portugal Day holiday, some closures.</div>
-              <div>• <strong>June 11</strong> — 10am flight. Airport by 7:30am.</div>
+              <div>• <strong>June 11</strong> — DL0273 departs 10am. Airport by 7:30am.</div>
             </div>
           </div>
         </div>)}
         {activeTab === "pack" && (<div>
-          <div style={{ marginTop: 20, marginBottom: 16 }}><h2 style={{ fontSize: 22, fontWeight: 400, margin: "0 0 3px" }}>Packing List</h2><div style={{ fontSize: 13, color: "#8B7E6A", fontStyle: "italic" }}>8 days, early June — warm days, cool evenings</div></div>
+          <div style={{ marginTop: 20, marginBottom: 16 }}><h2 style={{ fontSize: 22, fontWeight: 400, margin: "0 0 3px" }}>Packing List</h2><div style={{ fontSize: 13, color: "#8B7E6A", fontStyle: "italic" }}>9 days, early June — beach time + city exploring</div></div>
           {packingList.map((cat, ci) => (<div key={ci} style={{ marginBottom: 20 }}>
             <div style={{ fontSize: 14, fontWeight: 700, color: "#2d5a3f", padding: "6px 0", borderBottom: "2px solid #E0D8C8", marginBottom: 6 }}>{cat.icon} {cat.category}</div>
             {cat.items.map((item, ii) => { const key = `p-${ci}-${ii}`; return (
@@ -301,7 +310,7 @@ export default function PortugalItinerary() {
           </div>))}
           <div style={{ padding: "12px 14px", background: "#F5F0E8", borderLeft: "4px solid #C4D7A4", borderRadius: "0 6px 6px 0", fontSize: 12, lineHeight: 1.6, color: "#5A4E3A" }}>
             <strong style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1 }}>Pro tip</strong>
-            <div style={{ marginTop: 3 }}>Pack light — you'll want room for thrift finds and souvenirs (cork goods, tiles, canned sardines, olive oil). Bring a foldable tote for market days.</div>
+            <div style={{ marginTop: 3 }}>Pack light — you'll want room for souvenirs (cork goods, tiles, canned sardines, olive oil). Extra sunscreen for Algarve beaches! Bring a foldable tote for the Feira da Ladra flea market.</div>
           </div>
         </div>)}
       </div>
