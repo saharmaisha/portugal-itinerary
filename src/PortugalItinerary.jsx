@@ -25,8 +25,8 @@ const days = [
   },
   {
     day: 2, date: "Thu, June 4", title: "Algarve Beaches & Caves", vibe: "Golden cliffs, sea caves, coastal magic", color: "#E8B4A0",
-    transport: { label: "Carvoeiro → Albufeira (Uber ~30 min)", detail: "Uber/Bolt from villa to Albufeira Marina (~30–35 min, ~€25–30). Book boat/kayak tour to Benagil Cave from Albufeira Marina. Tours run 9am–5pm, ~€25–40/person. Uber back to villa in evening." },
-    booking: { urgency: "now", text: "Book Benagil Cave boat or kayak tour — popular, sells out!\n→ Search 'Benagil Cave tour from Albufeira' on GetYourGuide or Viator" },
+    transport: { label: "Carvoeiro → Albufeira (Uber ~30 min)", detail: "Uber/Bolt from villa to Albufeira Marina (~30–35 min, ~€25–30). Book boat tour to Benagil Cave from Albufeira Marina. Tours run 9am–5pm, ~€25–40/person. Uber back to villa in evening." },
+    booking: { urgency: "now", text: "Book Benagil Cave boat tour — popular, sells out!\n→ Search 'Benagil Cave boat tour from Albufeira' on GetYourGuide or Viator" },
     items: [
       { time: "8:00 AM", text: "Breakfast at villa, enjoy the pool and morning sun" },
       { time: "9:00 AM", text: "Uber from Carvoeiro villa to Albufeira Marina (~30–35 min, ~€25–30)", tag: "transit" },
@@ -38,7 +38,7 @@ const days = [
       { time: "9:00 PM", text: "Uber back to Carvoeiro villa (~30 min, ~€25–30)", tag: "transit" },
       { time: "10:00 PM", text: "Night swim in the private pool!" },
     ],
-    notes: "Benagil Cave is the #1 Algarve attraction — book early! Kayak tours let you paddle inside, boat tours view from the water. Bring swimsuit, sunscreen, and waterproof bag for phone. Villa address: " + CARVOEIRO_VILLA,
+    notes: "Benagil Cave is the #1 Algarve attraction — book early! Boat tours get you up close to the caves and grottos along the coast. Bring swimsuit, sunscreen, and waterproof bag for phone. Villa address: " + CARVOEIRO_VILLA,
   },
   {
     day: 3, date: "Fri, June 5", title: "Beach Day & Algarve Vibes", vibe: "Relax, swim, explore nearby beaches", color: "#C4D7A4",
@@ -266,7 +266,7 @@ export default function PortugalItinerary() {
           {[
             { label: "Book Now", color: "#9B2C2C", bg: "#FFF8F0", border: "#F0D8B8", items: [
               { text: "Rede Expressos bus: Lisbon → Lagoa", sub: "June 3, ~10:30am departure · Day 1", url: "rede-expressos.pt" },
-              { text: "Benagil Cave boat/kayak tour", sub: "Sells out! From Albufeira Marina · Day 2", url: "getyourguide.com or viator.com" },
+              { text: "Benagil Cave boat tour", sub: "Sells out! From Albufeira Marina · Day 2", url: "getyourguide.com or viator.com" },
               { text: "Rede Expressos bus: Lagoa → Lisbon", sub: "June 6, morning departure · Day 4", url: "rede-expressos.pt" },
               { text: "Jerónimos Monastery tickets", sub: "Timed entry, sells out · Day 5", url: "patrimoniocultural.gov.pt" },
               { text: "Pena Palace tickets (Sintra)", sub: "Timed EARLY morning slot · Day 6", url: "parquesdesintra.pt" },
