@@ -1,72 +1,73 @@
 import { useState } from "react";
 
-const LISBON_AIRBNB = "2 R. Cap. Henrique Galvão"; // approximate - confirm when booked
-const ALBUFEIRA_AIRBNB = "23B R. Guerra Junqueiro"; // approximate - confirm when booked
+const LISBON_AIRBNB = "Rua Actor Isidoro 35, Lisbon 1900-016";
+const CARVOEIRO_VILLA = "Rua Alegre 121, Carvoeiro, Faro 8400";
 
 const days = [
   {
-    day: 1, date: "Wed, June 3", title: "Arrival → Albufeira", vibe: "Land in Lisbon, head to the beach", color: "#F2C879",
-    transport: { label: "Lisbon Airport → Albufeira", detail: "Land at Lisbon (LIS). Rede Expressos bus from Sete Rios station to Albufeira (~2.5 hours, ~€20). Metro Red Line: Aeroporto → Jardim Zoológico (~20 min), then 5 min walk to Sete Rios bus station. OR Uber/Bolt direct: ~€150–180, 2.5 hours." },
-    booking: { urgency: "now", text: "Book Albufeira accommodation (June 3–6, 3 nights)\nBook Rede Expressos bus: Lisbon → Albufeira → rede-expressos.pt\nAim for 10:30am or 11am departure from Sete Rios" },
+    day: 1, date: "Wed, June 3", title: "Arrival → Carvoeiro", vibe: "Land in Lisbon, head to the Algarve", color: "#F2C879",
+    transport: { label: "Lisbon Airport → Carvoeiro Villa", detail: "Land at Lisbon (LIS). Rede Expressos bus from Sete Rios station to Lagoa (~3 hours, ~€15–20). Metro Red Line: Aeroporto → Jardim Zoológico (~20 min), then 5 min walk to Sete Rios bus station. From Lagoa bus station, Uber to villa (~10 min, ~€8). OR Uber/Bolt direct from Lisbon: ~€180–220, ~2.5 hours." },
+    booking: { urgency: "now", text: "Book Rede Expressos bus: Lisbon → Lagoa → rede-expressos.pt\nAim for 10:30am or 11am departure from Sete Rios" },
     items: [
       { time: "8:00 AM", text: "Land at Lisbon Airport (LIS) — DL0272 from JFK" },
       { time: "9:00 AM", text: "Clear customs, grab luggage" },
       { time: "9:30 AM", text: "Metro Red Line: Aeroporto → Jardim Zoológico (~20 min). Walk 5 min to Sete Rios bus station.", tag: "transit" },
-      { time: "10:30 AM", text: "Rede Expressos bus to Albufeira (~2.5 hours). Relax, maybe nap!", tag: "transit" },
-      { time: "1:00 PM", text: "Arrive Albufeira bus station — Uber/walk to accommodation (~10 min)" },
-      { time: "1:30 PM", text: "Drop bags at accommodation (check-in likely 3pm, but most allow luggage drop)" },
-      { time: "2:00 PM", text: "Lunch near Old Town — fresh grilled fish, cataplana (seafood stew), or sardinhas" },
-      { time: "3:00 PM", text: "Check into accommodation, freshen up" },
-      { time: "4:00 PM", text: "Walk to Praia dos Pescadores (Fisherman's Beach) — central beach with cliffs and colorful boats" },
-      { time: "5:30 PM", text: "Explore Old Town (Albufeira Velha) — winding cobblestone streets, white-washed buildings, cafés" },
-      { time: "7:00 PM", text: "Sunset drinks at a clifftop bar — try Skybar Albufeira or any terrace with views" },
-      { time: "9:00 PM", text: "Dinner in Old Town — Cabaz da Praia (seafood with ocean view) or O Dias (traditional, locals' favorite)" },
+      { time: "10:30 AM", text: "Rede Expressos bus to Lagoa (~3 hours). Relax, maybe nap!", tag: "transit" },
+      { time: "1:30 PM", text: "Arrive Lagoa bus station — Uber to Carvoeiro villa (~10 min, ~€8)", tag: "transit" },
+      { time: "2:00 PM", text: "Arrive at villa: " + CARVOEIRO_VILLA + " — villa with private pool!" },
+      { time: "2:30 PM", text: "Settle in, freshen up, maybe a quick dip in the pool" },
+      { time: "4:00 PM", text: "Walk to Praia de Carvoeiro — charming beach in a cliff cove, right in town" },
+      { time: "5:30 PM", text: "Explore Carvoeiro village — small, picturesque with white-washed buildings and seaside cafés" },
+      { time: "7:00 PM", text: "Sunset drinks at a clifftop bar — Boneca Bar or any terrace with views" },
+      { time: "9:00 PM", text: "Dinner in Carvoeiro — O Barradas (fine dining seafood) or Rei das Praias (beachside)" },
     ],
-    notes: "It's a travel day but you'll still have a full afternoon/evening in Albufeira! The bus ride is scenic and a good chance to rest after the overnight flight. Accommodation is near " + ALBUFEIRA_AIRBNB + " (confirm address when booked).",
+    notes: "Travel day but you'll have a full afternoon/evening in Carvoeiro! The bus ride is scenic and a good chance to rest after the overnight flight. Your villa is at " + CARVOEIRO_VILLA + " — private pool included!",
   },
   {
     day: 2, date: "Thu, June 4", title: "Algarve Beaches & Caves", vibe: "Golden cliffs, sea caves, coastal magic", color: "#E8B4A0",
-    transport: { label: "Boat tour from Albufeira Marina", detail: "Book boat/kayak tour to Benagil Cave from Albufeira Marina (~15 min walk from Old Town). Tours run 9am–5pm, ~€25–40/person." },
+    transport: { label: "Carvoeiro → Albufeira (Uber ~30 min)", detail: "Uber/Bolt from villa to Albufeira Marina (~30–35 min, ~€25–30). Book boat/kayak tour to Benagil Cave from Albufeira Marina. Tours run 9am–5pm, ~€25–40/person. Uber back to villa in evening." },
     booking: { urgency: "now", text: "Book Benagil Cave boat or kayak tour — popular, sells out!\n→ Search 'Benagil Cave tour from Albufeira' on GetYourGuide or Viator" },
     items: [
-      { time: "8:30 AM", text: "Breakfast at accommodation or grab pastéis at a local pastelaria" },
-      { time: "9:30 AM", text: "Walk to Albufeira Marina (~15 min from Old Town)", tag: "transit" },
+      { time: "8:00 AM", text: "Breakfast at villa, enjoy the pool and morning sun" },
+      { time: "9:00 AM", text: "Uber from Carvoeiro villa to Albufeira Marina (~30–35 min, ~€25–30)", tag: "transit" },
       { time: "10:00 AM", text: "Boat tour to Benagil Cave — iconic sea cave with sunlit dome ceiling, plus other grottos and rock formations along the coast (~2–3 hours)" },
       { time: "1:00 PM", text: "Lunch at the Marina — Restaurante Evaristo (beachfront, amazing seafood) or casual spots on the waterfront" },
       { time: "3:00 PM", text: "Praia de São Rafael — one of the most beautiful beaches in Algarve, dramatic rock formations, clear water" },
-      { time: "5:30 PM", text: "Back to accommodation, shower, rest" },
-      { time: "7:30 PM", text: "Evening walk through Old Town, browse shops and galleries" },
-      { time: "9:00 PM", text: "Dinner — A Ruína (seafood on the beach at Praia dos Pescadores) or Tasca do Kiko (tapas, great octopus)" },
-      { time: "11:00 PM", text: "Optional: drinks on The Strip or at a rooftop bar" },
+      { time: "5:30 PM", text: "Explore Albufeira Old Town — winding cobblestone streets, white-washed buildings, cafés" },
+      { time: "7:00 PM", text: "Dinner in Albufeira — A Ruína (seafood on the beach) or Tasca do Kiko (tapas, great octopus)" },
+      { time: "9:00 PM", text: "Uber back to Carvoeiro villa (~30 min, ~€25–30)", tag: "transit" },
+      { time: "10:00 PM", text: "Night swim in the private pool!" },
     ],
-    notes: "Benagil Cave is the #1 Algarve attraction — book early! Kayak tours let you paddle inside, boat tours view from the water. Bring swimsuit, sunscreen, and waterproof bag for phone.",
+    notes: "Benagil Cave is the #1 Algarve attraction — book early! Kayak tours let you paddle inside, boat tours view from the water. Bring swimsuit, sunscreen, and waterproof bag for phone. Villa address: " + CARVOEIRO_VILLA,
   },
   {
     day: 3, date: "Fri, June 5", title: "Beach Day & Algarve Vibes", vibe: "Relax, swim, explore nearby beaches", color: "#C4D7A4",
-    transport: { label: "Explore nearby beaches", detail: "Uber/Bolt to beaches (~€5–10). OR rent a car for flexibility. Local buses run but infrequent." },
+    transport: { label: "Explore Algarve beaches from Carvoeiro", detail: "Uber/Bolt to beaches. Praia da Marinha is ~15 min from villa. Praia da Falésia (near Albufeira) is ~35 min. Or enjoy nearby Carvoeiro beaches!" },
     booking: null,
     items: [
-      { time: "9:30 AM", text: "Leisurely breakfast — last full day in Algarve!" },
-      { time: "10:30 AM", text: "Uber to Praia da Marinha (~15 min) — often ranked top beach in Europe. Dramatic cliffs, crystal water, iconic double arches.", tag: "transit" },
+      { time: "9:00 AM", text: "Leisurely breakfast at villa, morning pool time — last full day in Algarve!" },
+      { time: "10:30 AM", text: "Uber to Praia da Marinha (~15 min from villa, ~€10) — often ranked top beach in Europe. Dramatic cliffs, crystal water, iconic double arches.", tag: "transit" },
       { time: "11:00 AM", text: "Beach time! Swim in the coves, take photos of the rock formations" },
       { time: "1:00 PM", text: "Lunch at the cliff-top restaurant or pack a picnic" },
       { time: "2:30 PM", text: "Walk the Seven Hanging Valleys Trail (Percurso dos Sete Vales Suspensos) — even a short section has incredible views" },
-      { time: "4:00 PM", text: "Head to Praia da Falésia — long golden beach with striking red/orange cliffs. Great for a final swim.", tag: "transit" },
-      { time: "6:30 PM", text: "Back to Albufeira, pack up, freshen up", tag: "transit" },
-      { time: "8:30 PM", text: "Farewell dinner in Albufeira — splurge at Vila Joya Beach (Michelin-starred) or keep it casual at your favorite spot from the trip" },
-      { time: "10:30 PM", text: "Pack for Lisbon! Early-ish start tomorrow." },
+      { time: "4:00 PM", text: "Uber to Praia da Falésia near Albufeira (~35 min) — long golden beach with striking red/orange cliffs. Great for a final swim.", tag: "transit" },
+      { time: "6:30 PM", text: "Uber back to Carvoeiro villa (~35 min, ~€25–30)", tag: "transit" },
+      { time: "7:30 PM", text: "Freshen up, final pool time at sunset" },
+      { time: "9:00 PM", text: "Farewell dinner in Carvoeiro — O Barradas (fine dining) or take Uber to Albufeira for Vila Joya Beach (Michelin-starred)" },
+      { time: "11:00 PM", text: "Pack for Lisbon! Early-ish start tomorrow." },
     ],
-    notes: "Praia da Marinha is stunning but has steep stairs down. Bring good shoes, water, sunscreen. Tomorrow you head to Lisbon — about 2.5 hours by bus or 2 hours by car.",
+    notes: "Praia da Marinha is stunning but has steep stairs down. Bring good shoes, water, sunscreen. Tomorrow you head to Lisbon — about 3 hours by bus from Lagoa. Villa: " + CARVOEIRO_VILLA,
   },
   {
-    day: 4, date: "Sat, June 6", title: "Albufeira → Lisbon", vibe: "Travel day, explore downtown Lisbon", color: "#E8D5B7",
-    transport: { label: "Albufeira → Lisbon", detail: "Rede Expressos bus: Albufeira → Lisbon Sete Rios (~2.5 hours, ~€20). Book ahead at rede-expressos.pt. From Sete Rios: Uber to Airbnb (~€8, 15 min) or metro Yellow Line → Green Line. OR rent car/Uber direct (~2 hours, €100+)." },
-    booking: { urgency: "now", text: "Book Rede Expressos bus to Lisbon → rede-expressos.pt\nMorning departure recommended (9am or 10am)" },
+    day: 4, date: "Sat, June 6", title: "Carvoeiro → Lisbon", vibe: "Travel day, explore downtown Lisbon", color: "#E8D5B7",
+    transport: { label: "Carvoeiro Villa → Lisbon Airbnb", detail: "Uber from villa to Lagoa bus station (~10 min, ~€8). Rede Expressos bus: Lagoa → Lisbon Sete Rios (~3 hours, ~€15–20). Book ahead at rede-expressos.pt. From Sete Rios: Uber to Airbnb at " + LISBON_AIRBNB + " (~€10, 15 min). OR Uber/Bolt direct from villa: ~€180–220, ~2.5 hours." },
+    booking: { urgency: "now", text: "Book Rede Expressos bus: Lagoa → Lisbon → rede-expressos.pt\nMorning departure recommended (9am or 10am)" },
     items: [
-      { time: "8:00 AM", text: "Breakfast, final pack, check out of Albufeira accommodation" },
-      { time: "9:00 AM", text: "Bus from Albufeira to Lisbon Sete Rios (~2.5 hours)", tag: "transit" },
-      { time: "11:30 AM", text: "Arrive Lisbon Sete Rios. Uber to Airbnb (~€8) or metro to your area", tag: "transit" },
-      { time: "12:30 PM", text: "Arrive Airbnb area — drop bags (check-in likely 3pm)" },
+      { time: "7:30 AM", text: "Breakfast, final pack, check out of Carvoeiro villa (" + CARVOEIRO_VILLA + ")" },
+      { time: "8:30 AM", text: "Uber from villa to Lagoa bus station (~10 min, ~€8)", tag: "transit" },
+      { time: "9:00 AM", text: "Rede Expressos bus from Lagoa to Lisbon Sete Rios (~3 hours)", tag: "transit" },
+      { time: "12:00 PM", text: "Arrive Lisbon Sete Rios. Uber to Airbnb (~€10, 15 min)", tag: "transit" },
+      { time: "12:30 PM", text: "Arrive at Lisbon Airbnb: " + LISBON_AIRBNB + " — drop bags (check-in likely 3pm)" },
       { time: "1:00 PM", text: "Lunch nearby or head to Cervejaria Ramiro (famous seafood, locals line up for shrimp and crab)" },
       { time: "2:30 PM", text: "Metro or Uber to Baixa — Lisbon's downtown grid" },
       { time: "3:00 PM", text: "Check into Airbnb, quick refresh" },
@@ -74,13 +75,13 @@ const days = [
       { time: "5:00 PM", text: "Wander Rua Augusta, Rossio Square & Praça da Figueira" },
       { time: "6:30 PM", text: "Walk up to Chiado/Bairro Alto neighborhood" },
       { time: "8:00 PM", text: "Dinner in Bairro Alto — Sea Me (seafood + sushi, great vibe) or O Velho Eurico (traditional grilled fish)" },
-      { time: "10:00 PM", text: "Explore Bairro Alto nightlife — streets fill up late! Check Reddit for current hot spots. Uber home when done (~€6–8).", tag: "transit" },
+      { time: "10:00 PM", text: "Explore Bairro Alto nightlife — streets fill up late! Uber home when done (~€6–8).", tag: "transit" },
     ],
-    notes: "Your Lisbon Airbnb is near " + LISBON_AIRBNB + " (confirm address when booked). Get a Viva Viagem card at any metro station and load with 'zapping' credit for all public transit.",
+    notes: "Your Lisbon Airbnb is at " + LISBON_AIRBNB + ". Get a Viva Viagem card at any metro station and load with 'zapping' credit for all public transit.",
   },
   {
     day: 5, date: "Sun, June 7", title: "Belém — The Highlight", vibe: "Age of Discovery, custard tarts, monasteries", color: "#A8C5D6",
-    transport: { label: "Airbnb → Belém", detail: "Metro to Cais do Sodré, then tram 15E or bus 728 to Belém (~20 min). OR Uber direct ~€8–10." },
+    transport: { label: LISBON_AIRBNB + " → Belém", detail: "From " + LISBON_AIRBNB + ": Metro to Cais do Sodré, then tram 15E or bus 728 to Belém (~25–30 min total). OR Uber direct ~€8–10." },
     booking: { urgency: "now", text: "Book Jerónimos Monastery tickets — timed entry, sells out in June!\n→ patrimoniocultural.gov.pt" },
     items: [
       { time: "9:00 AM", text: "Metro to Cais do Sodré → tram 15E to Belém", tag: "transit" },
@@ -156,15 +157,15 @@ const days = [
   },
   {
     day: 9, date: "Thu, June 11", title: "Departure", vibe: "Até logo, Portugal!", color: "#E8D5B7",
-    transport: { label: "Airbnb → Lisbon Airport", detail: "Uber to airport (~€10–15, 15–20 min). OR Metro Red Line → Aeroporto (~30 min, ~€1.50). Metro opens 6:30am." },
+    transport: { label: LISBON_AIRBNB + " → Lisbon Airport", detail: "From " + LISBON_AIRBNB + ": Uber to airport (~€10–15, 15–20 min). OR Metro Red Line → Aeroporto (~30 min, ~€1.50). Metro opens 6:30am." },
     booking: null,
     items: [
-      { time: "6:30 AM", text: "Wake up, final pack, check you have passport + tickets" },
-      { time: "7:00 AM", text: "Uber or metro to Lisbon Airport (LIS)", tag: "transit" },
+      { time: "6:30 AM", text: "Wake up at " + LISBON_AIRBNB + ", final pack, check you have passport + tickets" },
+      { time: "7:00 AM", text: "Uber from Airbnb to Lisbon Airport (LIS) (~15–20 min, ~€10–15)", tag: "transit" },
       { time: "7:30 AM", text: "Arrive airport — aim for 2.5 hours before international flight" },
       { time: "10:00 AM", text: "DL0273 departs Lisbon → JFK (arrives 12:47pm same day)" },
     ],
-    notes: "Don't forget: passport, all chargers, any souvenirs! Até logo, Portugal — until next time!",
+    notes: "Don't forget: passport, all chargers, any souvenirs! Leaving from " + LISBON_AIRBNB + ". Até logo, Portugal — until next time!",
   },
 ];
 
@@ -174,10 +175,10 @@ const packingList = [
     { text: "Phone + charger + portable battery", priority: true },
     { text: "EU adapter plug (Type F, round 2-pin)", priority: true },
     { text: "Credit/debit card (no foreign transaction fee)", priority: true },
-    { text: "Cash — euros for buses, Feira da Ladra, tips", priority: true },
+    { text: "Cash — euros for Ubers, Feira da Ladra, tips", priority: true },
     { text: "Flight confirmations (DL0272 out, DL0273 return)", priority: false },
-    { text: "Albufeira accommodation: ~23B R. Guerra Junqueiro (June 3–6)", priority: false },
-    { text: "Lisbon Airbnb: ~2 R. Cap. Henrique Galvão (June 6–11)", priority: false },
+    { text: "Carvoeiro Villa: " + CARVOEIRO_VILLA + " (June 3–6)", priority: false },
+    { text: "Lisbon Airbnb: " + LISBON_AIRBNB + " (June 6–11)", priority: false },
     { text: "All pre-booked tickets (monastery, palaces, Benagil tour, bus)", priority: false },
     { text: "Travel insurance docs", priority: false },
   ]},
@@ -197,7 +198,7 @@ const packingList = [
     { text: "Reusable water bottle (refill everywhere)", priority: false },
     { text: "Sunscreen SPF 30+ (essential for Algarve!)", priority: true },
     { text: "Waterproof phone pouch (for boat tours)", priority: false },
-    { text: "Snacks for bus rides (Albufeira→Lisbon is 2.5 hours)", priority: false },
+    { text: "Snacks for bus rides (Lagoa↔Lisbon is ~3 hours)", priority: false },
     { text: "Compact umbrella or light rain jacket (just in case)", priority: false },
   ]},
   { category: "Nice to Have", icon: "✨", items: [
@@ -223,7 +224,7 @@ export default function PortugalItinerary() {
         <div style={{ fontSize: 11, letterSpacing: 4, textTransform: "uppercase", opacity: 0.6, marginBottom: 4 }}>Your Trip</div>
         <h1 style={{ fontSize: 30, fontWeight: 400, margin: "0 0 3px", letterSpacing: 1 }}>Portugal</h1>
         <div style={{ fontSize: 13, opacity: 0.75 }}>June 3–11, 2026 · Algarve & Lisbon</div>
-        <div style={{ fontSize: 11, opacity: 0.45, marginTop: 2 }}>✈️ DL0272/DL0273 JFK↔LIS · 🏖️ Albufeira (3–6) · 🏛️ Lisbon (6–11)</div>
+        <div style={{ fontSize: 11, opacity: 0.45, marginTop: 2 }}>✈️ DL0272/DL0273 JFK↔LIS · 🏖️ Carvoeiro (3–6) · 🏛️ Lisbon (6–11)</div>
       </div>
       <div style={{ display: "flex", background: "#22473a" }}>
         {tabs.map((t) => (<button key={t.id} type="button" onClick={() => setActiveTab(t.id)} style={{ flex: 1, padding: "10px 0 8px", border: "none", borderBottom: activeTab === t.id ? "3px solid #F2C879" : "3px solid transparent", background: activeTab === t.id ? "rgba(255,255,255,0.08)" : "transparent", color: activeTab === t.id ? "#fff" : "rgba(255,255,255,0.45)", cursor: "pointer", fontFamily: "inherit", fontSize: 12, fontWeight: activeTab === t.id ? 700 : 400 }}>{t.label}</button>))}
@@ -264,10 +265,9 @@ export default function PortugalItinerary() {
           <div style={{ marginTop: 20, marginBottom: 16 }}><h2 style={{ fontSize: 22, fontWeight: 400, margin: "0 0 3px" }}>Book Ahead of Time</h2><div style={{ fontSize: 13, color: "#8B7E6A", fontStyle: "italic" }}>June is peak season — don't wait!</div></div>
           {[
             { label: "Book Now", color: "#9B2C2C", bg: "#FFF8F0", border: "#F0D8B8", items: [
-              { text: "Albufeira accommodation (3 nights)", sub: "June 3–6 · Day 1–3", url: "booking.com or airbnb.com" },
-              { text: "Rede Expressos bus: Lisbon → Albufeira", sub: "June 3, ~10:30am departure · Day 1", url: "rede-expressos.pt" },
+              { text: "Rede Expressos bus: Lisbon → Lagoa", sub: "June 3, ~10:30am departure · Day 1", url: "rede-expressos.pt" },
               { text: "Benagil Cave boat/kayak tour", sub: "Sells out! From Albufeira Marina · Day 2", url: "getyourguide.com or viator.com" },
-              { text: "Rede Expressos bus: Albufeira → Lisbon", sub: "June 6, morning departure · Day 4", url: "rede-expressos.pt" },
+              { text: "Rede Expressos bus: Lagoa → Lisbon", sub: "June 6, morning departure · Day 4", url: "rede-expressos.pt" },
               { text: "Jerónimos Monastery tickets", sub: "Timed entry, sells out · Day 5", url: "patrimoniocultural.gov.pt" },
               { text: "Pena Palace tickets (Sintra)", sub: "Timed EARLY morning slot · Day 6", url: "parquesdesintra.pt" },
               { text: "Quinta da Regaleira tickets", sub: "Timed entry · Day 6", url: "rfregaleira.pt" },
@@ -288,13 +288,13 @@ export default function PortugalItinerary() {
           <div style={{ padding: "12px 14px", background: "#F5F0E8", borderLeft: "4px solid #B8A9D4", borderRadius: "0 6px 6px 0", fontSize: 12, lineHeight: 1.7, color: "#5A4E3A" }}>
             <strong style={{ fontSize: 10, textTransform: "uppercase", letterSpacing: 1 }}>General Tips</strong>
             <div style={{ marginTop: 4 }}>
-              <div>• <strong>June 3</strong> — Land Lisbon 8am (DL0272). Bus to Albufeira (~2.5 hours).</div>
-              <div>• <strong>Albufeira (June 3–6)</strong> — 3 nights in Algarve. Book accommodation!</div>
-              <div>• <strong>Lisbon (June 6–11)</strong> — Bus back from Albufeira (~2.5 hours).</div>
+              <div>• <strong>June 3</strong> — Land Lisbon 8am (DL0272). Bus to Lagoa (~3 hours), then Uber to Carvoeiro villa.</div>
+              <div>• <strong>Carvoeiro Villa (June 3–6)</strong> — {CARVOEIRO_VILLA}. Private pool! Uber to Albufeira beaches ~30 min.</div>
+              <div>• <strong>Lisbon Airbnb (June 6–11)</strong> — {LISBON_AIRBNB}. Bus from Lagoa (~3 hours).</div>
               <div>• <strong>Viva Viagem card</strong> — Get at any Lisbon metro. Zapping credit for all transit.</div>
-              <div>• <strong>Uber/Bolt</strong> — ~€5–10 most rides in cities.</div>
+              <div>• <strong>Uber/Bolt</strong> — Carvoeiro→Albufeira ~€25–30. Lisbon rides ~€6–10.</div>
               <div>• <strong>June 10</strong> — Portugal Day holiday, some closures.</div>
-              <div>• <strong>June 11</strong> — DL0273 departs 10am. Airport by 7:30am.</div>
+              <div>• <strong>June 11</strong> — DL0273 departs 10am. Uber from Airbnb to airport by 7am.</div>
             </div>
           </div>
         </div>)}
